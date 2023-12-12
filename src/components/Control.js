@@ -10,10 +10,23 @@ const Control = () => {
     const [wrongGuesses, setWrongGuesses] = useState([]);
     const [correctGuesses, setCorrectGuesses] = useState([]);
     const [guessesRemaining, setGuessesRemaining] = useState(6);
+    const [displayAnswer, setDisplayAnswer] = useState(["_", "_", "_", "_", "_", "_"]);
+    const [endState, setEndState] = useState(false);
+    const [doubleLetter, setDoubleLetter] = useState('');
 
     const newGame = () => {
         setInGame(true);
     };
+
+    const playAgain = () => {
+        setInGame(true);
+        setWrongGuesses([]);
+        setCorrectGuesses([]);
+        setGuessesRemaining(6);
+        setDisplayAnswer(["_", "_", "_", "_", "_", "_"]);
+        setEndState(false);
+        setGameOver(false);
+    }
 
     const getIndices = (array, letter) => {
         let indices = [];
@@ -26,32 +39,53 @@ const Control = () => {
     }
 
     const answer = ["P", "U", "Z", "Z", "L", "E"];
+    
 
-    const handleGuess = (guess) => { //guess = { guess: 'a'}
-        const upperGuess = (guess.guess).toUpperCase();
-        //const newGuessArray = [...wrongGuesses, guess.guess]; // ["a"]
-        if (correctGuesses.includes(upperGuess) || wrongGuesses.includes(upperGuess)) {
-        } else if (answer.includes(upperGuess)){
-            const displayAnswer = getIndices(answer, upperGuess);
-            console.log(displayAnswer);
-            const newCorrectGuessArray = [...correctGuesses, upperGuess];
-            setCorrectGuesses(newCorrectGuessArray);
+    const handleGuess = (guess) => {
+        setDoubleLetter('');
+        if ((guess.guess).length === 1) {
+            const upperGuess = (guess.guess).toUpperCase();
+            if (correctGuesses.includes(upperGuess) || wrongGuesses.includes(upperGuess)) {
+            } else if (answer.includes(upperGuess)){
+                const displayAnswerIndex = getIndices(answer, upperGuess); //[2, 3] if 'z'
+                for (let i = 0; i < displayAnswerIndex.length; i++) {
+                    displayAnswer.splice(displayAnswerIndex[i], 1, upperGuess)
+                }
+                const newCorrectGuessArray = [...correctGuesses, upperGuess];
+                setCorrectGuesses(newCorrectGuessArray);
+                if (answer.join('') === displayAnswer.join('')) {
+                    setGameOver(true)
+                    setEndState(true)
+                }
+            } else {
+                const newWrongGuessArray = [...wrongGuesses, upperGuess];
+                setWrongGuesses(newWrongGuessArray);
+                setGuessesRemaining(guessesRemaining - 1)
+                if (guessesRemaining === 1) {
+                    setGameOver(true)
+                }
+            }
         } else {
-            const newWrongGuessArray = [...wrongGuesses, upperGuess];
-            setWrongGuesses(newWrongGuessArray);
-            setGuessesRemaining(guessesRemaining - 1)
+            setDoubleLetter("Please enter a single letter");
         }
-        //compare guess to provided word array. correct, incorrect, duplicate result. then display
-    }
 
+    }
     let visibleState = null;
 
     if (gameOver) {
-        visibleState = <EndScenario />;
+        visibleState = 
+        <>
+        <GamePage incorrectGuesses={wrongGuesses}  guessesLeft={guessesRemaining} displayAnswer= {displayAnswer}/>
+        <EndScenario endState={endState}  click={playAgain}/>
+        </>
     } else if (inGame) {
         visibleState = (
             <>
-                <GamePage incorrectGuesses={wrongGuesses}  guessesLeft={guessesRemaining}/>
+                <GamePage 
+                incorrectGuesses={wrongGuesses}  
+                guessesLeft={guessesRemaining} 
+                displayAnswer= {displayAnswer}
+                dubLetResponse={doubleLetter}/>
                 <GuessForm onNewGuess={handleGuess} />
             </>
         );
