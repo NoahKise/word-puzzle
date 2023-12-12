@@ -15,14 +15,25 @@ const Control = () => {
         setInGame(true);
     };
 
+    const getIndices = (array, letter) => {
+        let indices = [];
+        for (let i = 0; i < array.length; i++) {
+            if (array[i] === letter) {
+                indices.push(i);
+            }
+        }
+        return indices;
+    }
+
     const answer = ["P", "U", "Z", "Z", "L", "E"];
 
     const handleGuess = (guess) => { //guess = { guess: 'a'}
-        console.log(guessesRemaining);
         const upperGuess = (guess.guess).toUpperCase();
         //const newGuessArray = [...wrongGuesses, guess.guess]; // ["a"]
         if (correctGuesses.includes(upperGuess) || wrongGuesses.includes(upperGuess)) {
         } else if (answer.includes(upperGuess)){
+            const displayAnswer = getIndices(answer, upperGuess);
+            console.log(displayAnswer);
             const newCorrectGuessArray = [...correctGuesses, upperGuess];
             setCorrectGuesses(newCorrectGuessArray);
         } else {

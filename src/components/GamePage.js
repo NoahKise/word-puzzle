@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 const GamePage = (props) => {
-    console.log(props.incorrectGuesses);
     return(
         <React.Fragment>
             <h2>Let's Play!</h2>
