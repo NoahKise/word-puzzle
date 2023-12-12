@@ -7,12 +7,31 @@ import PlayButton from "./PlayButton";
 const Control = () => {
     const [inGame, setInGame] = useState(false);
     const [gameOver, setGameOver] = useState(false);
-    const [guesses, setGuesses] = useState([]);
+    const [wrongGuesses, setWrongGuesses] = useState([]);
+    const [correctGuesses, setCorrectGuesses] = useState([]);
     const [guessesRemaining, setGuessesRemaining] = useState(6);
 
     const newGame = () => {
         setInGame(true);
     };
+
+    const answer = ["P", "U", "Z", "Z", "L", "E"];
+
+    const handleGuess = (guess) => { //guess = { guess: 'a'}
+        console.log(guessesRemaining);
+        const upperGuess = (guess.guess).toUpperCase();
+        //const newGuessArray = [...wrongGuesses, guess.guess]; // ["a"]
+        if (correctGuesses.includes(upperGuess) || wrongGuesses.includes(upperGuess)) {
+        } else if (answer.includes(upperGuess)){
+            const newCorrectGuessArray = [...correctGuesses, upperGuess];
+            setCorrectGuesses(newCorrectGuessArray);
+        } else {
+            const newWrongGuessArray = [...wrongGuesses, upperGuess];
+            setWrongGuesses(newWrongGuessArray);
+            setGuessesRemaining(guessesRemaining - 1)
+        }
+        //compare guess to provided word array. correct, incorrect, duplicate result. then display
+    }
 
     let visibleState = null;
 
@@ -21,8 +40,8 @@ const Control = () => {
     } else if (inGame) {
         visibleState = (
             <>
-                <GamePage />
-                <GuessForm />
+                <GamePage incorrectGuesses={wrongGuesses}  guessesLeft={guessesRemaining}/>
+                <GuessForm onNewGuess={handleGuess} />
             </>
         );
     } else {
