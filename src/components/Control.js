@@ -3,6 +3,7 @@ import GuessForm from "./GuessForm";
 import GamePage from "./GamePage";
 import EndScenario from "./EndScenario";
 import PlayButton from "./PlayButton";
+import wordList from "./words";
 
 const Control = () => {
     const [inGame, setInGame] = useState(false);
@@ -12,21 +13,30 @@ const Control = () => {
     const [guessesRemaining, setGuessesRemaining] = useState(6);
     const [displayAnswer, setDisplayAnswer] = useState(["_", "_", "_", "_", "_", "_"]);
     const [endState, setEndState] = useState(false);
-    const [doubleLetter, setDoubleLetter] = useState('');
+    const [error, setError] = useState('');
+    const [answer, setAnswer] = useState([]);
 
     const newGame = () => {
         setInGame(true);
-    };
 
-    const playAgain = () => {
-        setInGame(true);
         setWrongGuesses([]);
         setCorrectGuesses([]);
         setGuessesRemaining(6);
-        setDisplayAnswer(["_", "_", "_", "_", "_", "_"]);
+        setDisplayAnswer([]);
         setEndState(false);
         setGameOver(false);
-    }
+
+        const randomNumber = Math.floor(Math.random() * wordList.length);
+        const randoAnswer = (wordList[randomNumber]).toUpperCase().split('')
+        setAnswer(randoAnswer);
+        let underscores = [];
+        for (let i = 0; i < randoAnswer.length; i++) {
+            underscores.push('_');
+        }
+        console.log(randoAnswer);
+        console.log(underscores);
+        setDisplayAnswer(underscores);
+    };
 
     const getIndices = (array, letter) => {
         let indices = [];
@@ -38,22 +48,22 @@ const Control = () => {
         return indices;
     }
 
-    const answer = ["P", "U", "Z", "Z", "L", "E"];
-    
-
     const handleGuess = (guess) => {
-        setDoubleLetter('');
+        setError('');
         if ((guess.guess).length === 1) {
             const upperGuess = (guess.guess).toUpperCase();
             if (correctGuesses.includes(upperGuess) || wrongGuesses.includes(upperGuess)) {
-            } else if (answer.includes(upperGuess)){
-                const displayAnswerIndex = getIndices(answer, upperGuess); //[2, 3] if 'z'
+                setError("You've already guessed that letter")
+            } else if (answer.includes(upperGuess)) {
+                const displayAnswerIndex = getIndices(answer, upperGuess);
+                let displayInProgress = [...displayAnswer]
                 for (let i = 0; i < displayAnswerIndex.length; i++) {
-                    displayAnswer.splice(displayAnswerIndex[i], 1, upperGuess)
+                    displayInProgress.splice(displayAnswerIndex[i], 1, upperGuess)
                 }
                 const newCorrectGuessArray = [...correctGuesses, upperGuess];
                 setCorrectGuesses(newCorrectGuessArray);
-                if (answer.join('') === displayAnswer.join('')) {
+                setDisplayAnswer(displayInProgress)
+                if (answer.join('') === displayInProgress.join('')) {
                     setGameOver(true)
                     setEndState(true)
                 }
@@ -66,31 +76,31 @@ const Control = () => {
                 }
             }
         } else {
-            setDoubleLetter("Please enter a single letter");
+            setError("Please enter a single letter");
         }
 
     }
     let visibleState = null;
 
     if (gameOver) {
-        visibleState = 
-        <>
-        <GamePage incorrectGuesses={wrongGuesses}  guessesLeft={guessesRemaining} displayAnswer= {displayAnswer}/>
-        <EndScenario endState={endState}  click={playAgain}/>
-        </>
+        visibleState =
+            <>
+                <GamePage incorrectGuesses={wrongGuesses} guessesLeft={guessesRemaining} displayAnswer={displayAnswer} />
+                <EndScenario endState={endState} click={newGame} unsolved={answer}/>
+            </>
     } else if (inGame) {
         visibleState = (
             <>
-                <GamePage 
-                incorrectGuesses={wrongGuesses}  
-                guessesLeft={guessesRemaining} 
-                displayAnswer= {displayAnswer}
-                dubLetResponse={doubleLetter}/>
+                <GamePage
+                    incorrectGuesses={wrongGuesses}
+                    guessesLeft={guessesRemaining}
+                    displayAnswer={displayAnswer}
+                    dubLetResponse={error} />
                 <GuessForm onNewGuess={handleGuess} />
             </>
         );
     } else {
-        visibleState = <PlayButton click={newGame}/>;
+        visibleState = <PlayButton click={newGame} />;
     }
 
     return <React.Fragment>{visibleState}</React.Fragment>;

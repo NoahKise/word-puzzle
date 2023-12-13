@@ -12,12 +12,14 @@ const EndScenario = (props) => {
     return(
         <React.Fragment>
             <h3>{message}</h3>
+            <h4>The word you were looking for was <em>{props.unsolved}</em></h4>
             <button onClick={props.click}>Play again</button> 
         </React.Fragment>
     )
 }
 
 EndScenario.propTypes = {
+    unsolved: PropTypes.array,
     click: PropTypes.func,
 }
 export default EndScenario;

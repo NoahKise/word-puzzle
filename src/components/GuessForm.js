@@ -6,8 +6,8 @@ const GuessForm = (props) => {
         e.preventDefault();
         props.onNewGuess({
             guess: e.target.guess.value,
-            //id??
         });
+        e.target.guess.value = ''
     }
 
 
