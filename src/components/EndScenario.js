@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import hang6 from './../assets/img/hang6.png';
+import pizzaSad from './../assets/img/pizzaSad.jpeg';
+import goblin from './../assets/img/goblin.png'
 
 const EndScenario = (props) => {
     let message;
     let correctWord;
+    let src;
     if (props.endState === true) {
         message = "Congrats You Win!";
+        src = goblin;
     } else {
         message = "Sorry Try Again";
         correctWord = (
@@ -15,13 +18,14 @@ const EndScenario = (props) => {
                 <em>{props.unsolved.join("")}</em>
             </React.Fragment>
         );
+        src = pizzaSad;
     }
     
     return(
         <React.Fragment>
             <h3>{message}</h3>
             <h4>{correctWord}</h4>
-            <img src={hang6} alt="final hangman"/>
+            <img src={src} alt="final hangman"/>
             <button onClick={props.click}>Play again</button> 
         </React.Fragment>
     )

@@ -4,12 +4,12 @@ import GamePage from "./GamePage";
 import EndScenario from "./EndScenario";
 import PlayButton from "./PlayButton";
 import wordList from "./words";
-import hang5 from './../assets/img/hang5.png';
-import hang4 from './../assets/img/hang4.png';
-import hang3 from './../assets/img/hang3.png';
-import hang2 from './../assets/img/hang2.png';
-import hang1 from './../assets/img/hang1.png';
-import hang0 from './../assets/img/hang0.png';
+import pizza6 from './../assets/img/pizza6.jpeg';
+import pizza5 from './../assets/img/pizza5.jpeg';
+import pizza4 from './../assets/img/pizza4.jpeg';
+import pizza3 from './../assets/img/pizza3.jpeg';
+import pizza2 from './../assets/img/pizza2.jpeg';
+import pizza1 from './../assets/img/pizza1.jpeg';
 
 import { useSelector } from 'react-redux';
 
@@ -117,22 +117,22 @@ const Control = () => {
     const setSrc = () => {
         let src;
         if (guessesRemaining === 6) {
-            src = hang0;
+            src = pizza6;
             return src;
         } else if (guessesRemaining === 5) {
-            src = hang1;
+            src = pizza5;
             return src;
         } else if (guessesRemaining === 4) {
-            src = hang2;
+            src = pizza4;
             return src;
         } else if (guessesRemaining === 3) {
-            src = hang3;
+            src = pizza3;
             return src;
         } else if (guessesRemaining === 2) {
-            src = hang4;
+            src = pizza2;
             return src;
         } else {
-            src = hang5;
+            src = pizza1;
             return src;
         }
     }
