@@ -4,6 +4,12 @@ import GamePage from "./GamePage";
 import EndScenario from "./EndScenario";
 import PlayButton from "./PlayButton";
 import wordList from "./words";
+import hang5 from './../assets/img/hang5.png';
+import hang4 from './../assets/img/hang4.png';
+import hang3 from './../assets/img/hang3.png';
+import hang2 from './../assets/img/hang2.png';
+import hang1 from './../assets/img/hang1.png';
+import hang0 from './../assets/img/hang0.png';
 
 import { useSelector } from 'react-redux';
 
@@ -108,13 +114,35 @@ const Control = () => {
     }
     let visibleState = null;
 
-    //let hangmanSRC = `../../public/img/hang${guessesRemaining}.png`;
+    const setSrc = () => {
+        let src;
+        if (guessesRemaining === 6) {
+            src = hang0;
+            return src;
+        } else if (guessesRemaining === 5) {
+            src = hang1;
+            return src;
+        } else if (guessesRemaining === 4) {
+            src = hang2;
+            return src;
+        } else if (guessesRemaining === 3) {
+            src = hang3;
+            return src;
+        } else if (guessesRemaining === 2) {
+            src = hang4;
+            return src;
+        } else {
+            src = hang5;
+            return src;
+        }
+    }
 
     if (gameOver) {
         visibleState =
             <>
                 <GamePage incorrectGuesses={wrongGuesses} guessesLeft={guessesRemaining} displayAnswer={displayAnswer} />
                 <EndScenario endState={endState} click={newGame} unsolved={answer} />
+                
             </>
     } else if (inGame) {
         visibleState = (
@@ -125,7 +153,7 @@ const Control = () => {
                     displayAnswer={displayAnswer}
                     dubLetResponse={error} />
                 <GuessForm onNewGuess={handleGuess} />
-                {/* <img src={hangmanSRC} alt="hangman"></img> */}
+                <img src={setSrc()} alt="hangman" />
             </>
         );
     } else {

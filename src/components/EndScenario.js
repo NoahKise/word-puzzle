@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import hang6 from './../assets/img/hang6.png';
 
 const EndScenario = (props) => {
     let message;
@@ -20,6 +21,7 @@ const EndScenario = (props) => {
         <React.Fragment>
             <h3>{message}</h3>
             <h4>{correctWord}</h4>
+            <img src={hang6} alt="final hangman"/>
             <button onClick={props.click}>Play again</button> 
         </React.Fragment>
     )
