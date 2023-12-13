@@ -16,7 +16,7 @@ const GuessForm = (props) => {
             <form onSubmit={handleGuessInput}>
                 <label htmlFor="guess">Guess a letter: </label>
                 <input type="text" id="guess" name="guess"></input>
-                <button type="submit">Submit</button>
+                <button type="submit" className='guessSubmitBtn'>Submit</button>
             </form>
         </React.Fragment>
     )

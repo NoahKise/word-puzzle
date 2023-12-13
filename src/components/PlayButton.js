@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 
 const PlayButton = ({ click }) => {
-
     return (
         <React.Fragment>
             <button onClick={click}>New Game</button>

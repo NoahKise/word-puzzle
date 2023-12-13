@@ -5,6 +5,7 @@ import EndScenario from "./EndScenario";
 import PlayButton from "./PlayButton";
 import wordList from "./words";
 
+
 const Control = () => {
     const [inGame, setInGame] = useState(false);
     const [gameOver, setGameOver] = useState(false);
@@ -82,6 +83,8 @@ const Control = () => {
     }
     let visibleState = null;
 
+    //let hangmanSRC = `../../public/img/hang${guessesRemaining}.png`;
+
     if (gameOver) {
         visibleState =
             <>
@@ -97,6 +100,7 @@ const Control = () => {
                     displayAnswer={displayAnswer}
                     dubLetResponse={error} />
                 <GuessForm onNewGuess={handleGuess} />
+                {/* <img src={hangmanSRC} alt="hangman"></img> */}
             </>
         );
     } else {

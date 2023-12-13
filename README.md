@@ -4,7 +4,6 @@
 * add hangman graphic that pic is related to number guesses left
 * graphic for win/lose
 _class bonus_
-* Try to change the color of an element on your game page based on whether the guess was right or wrong. Play around with changing the layout of your template file based on whether a guess is right or wrong, and whether or not the game is over.
 * Make the game two-player! Create a new form page where one user can choose a word for the other user to guess.
 * Try stylizing this game like Wordle.
 
