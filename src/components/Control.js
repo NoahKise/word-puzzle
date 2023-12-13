@@ -5,38 +5,63 @@ import EndScenario from "./EndScenario";
 import PlayButton from "./PlayButton";
 import wordList from "./words";
 
+import { useSelector } from 'react-redux';
+
+import { inGameSelector } from "../redux/inGameSlice";
+import { gameOverSelector } from "../redux/gameOverSlice";
+import { wrongGuessesSelector } from "../redux/wrongGuessesSlice";
+import { correctGuessesSelector } from "../redux/correctGuessesSlice";
+import { guessesRemainingSelector } from "../redux/guessesRemainingSlice";
+import { displayAnswerSelector } from "../redux/displayAnswerSlice";
+import { endStateSelector } from "../redux/endStateSlice";
+import { errorSelector } from "../redux/errorSlice";
+import { answerSelector } from "../redux/answerSlice";
+
+import { useDispatch } from 'react-redux';
+
+import { setAnswer } from './../redux/answerSlice';
+import { addCorrectLetter, returnDefaultCorrect } from "../redux/correctGuessesSlice";
+import { userDisplay } from "../redux/displayAnswerSlice";
+import { setEndTrue, setEndFalse } from "../redux/endStateSlice";
+import { displayError } from "../redux/errorSlice";
+import { setGameOverTrue, setGameOverFalse } from "../redux/gameOverSlice"; 
+import { decrementGuess, returnTo6 } from "../redux/guessesRemainingSlice";
+import { setStartTrue } from "../redux/inGameSlice";
+import { addWrongLetter, returnDefaultWrong } from "../redux/wrongGuessesSlice"; 
+
 
 const Control = () => {
-    const [inGame, setInGame] = useState(false);
-    const [gameOver, setGameOver] = useState(false);
-    const [wrongGuesses, setWrongGuesses] = useState([]);
-    const [correctGuesses, setCorrectGuesses] = useState([]);
-    const [guessesRemaining, setGuessesRemaining] = useState(6);
-    const [displayAnswer, setDisplayAnswer] = useState(["_", "_", "_", "_", "_", "_"]);
-    const [endState, setEndState] = useState(false);
-    const [error, setError] = useState('');
-    const [answer, setAnswer] = useState([]);
+    const dispatch = useDispatch();
+
+    const inGame = useSelector(inGameSelector);
+    const gameOver = useSelector(gameOverSelector);
+    const wrongGuesses = useSelector(wrongGuessesSelector);
+    const correctGuesses = useSelector(correctGuessesSelector);
+    const guessesRemaining = useSelector(guessesRemainingSelector);
+    const displayAnswer = useSelector(displayAnswerSelector);
+    const endState = useSelector(endStateSelector);
+    const error = useSelector(errorSelector);
+    const answer = useSelector(answerSelector);
 
     const newGame = () => {
-        setInGame(true);
-
-        setWrongGuesses([]);
-        setCorrectGuesses([]);
-        setGuessesRemaining(6);
-        setDisplayAnswer([]);
-        setEndState(false);
-        setGameOver(false);
+        dispatch(setStartTrue()); // setInGame(true);
+        dispatch(returnDefaultWrong()); //setWrongGuesses([]);
+        dispatch(returnDefaultCorrect());  //setCorrectGuesses([]);
+        dispatch(returnTo6()); //setGuessesRemaining(6);
+        dispatch(userDisplay([]));  //setDisplayAnswer([]);
+        dispatch(setEndFalse());  //setEndState(false);
+        dispatch(setGameOverFalse()); //setGameOver(false);
 
         const randomNumber = Math.floor(Math.random() * wordList.length);
         const randoAnswer = (wordList[randomNumber]).toUpperCase().split('')
-        setAnswer(randoAnswer);
+        dispatch(setAnswer(randoAnswer)) //setAnswer(randoAnswer);
         let underscores = [];
         for (let i = 0; i < randoAnswer.length; i++) {
             underscores.push('_');
         }
         console.log(randoAnswer);
         console.log(underscores);
-        setDisplayAnswer(underscores);
+        dispatch(userDisplay(underscores));    //setDisplayAnswer(underscores);
     };
 
     const getIndices = (array, letter) => {
@@ -50,11 +75,14 @@ const Control = () => {
     }
 
     const handleGuess = (guess) => {
-        setError('');
+       dispatch(displayError('')); //setError('');
         if ((guess.guess).length === 1) {
             const upperGuess = (guess.guess).toUpperCase();
+            console.log("correct guesses", correctGuesses);
+            console.log("wrong guesses", wrongGuesses);
+
             if (correctGuesses.includes(upperGuess) || wrongGuesses.includes(upperGuess)) {
-                setError("You've already guessed that letter")
+                dispatch(displayError("You've already guessed that letter")); //setError("You've already guessed that letter")
             } else if (answer.includes(upperGuess)) {
                 const displayAnswerIndex = getIndices(answer, upperGuess);
                 let displayInProgress = [...displayAnswer]
@@ -62,22 +90,23 @@ const Control = () => {
                     displayInProgress.splice(displayAnswerIndex[i], 1, upperGuess)
                 }
                 const newCorrectGuessArray = [...correctGuesses, upperGuess];
-                setCorrectGuesses(newCorrectGuessArray);
-                setDisplayAnswer(displayInProgress)
+                dispatch(addCorrectLetter(newCorrectGuessArray)); //setCorrectGuesses(newCorrectGuessArray);
+                dispatch(userDisplay(displayInProgress)); //setDisplayAnswer(displayInProgress)
                 if (answer.join('') === displayInProgress.join('')) {
-                    setGameOver(true)
-                    setEndState(true)
+                    dispatch(setGameOverTrue()); //setGameOver(true)
+                    dispatch(setEndTrue()); //setEndState(true)
                 }
             } else {
+                console.log(answer);
                 const newWrongGuessArray = [...wrongGuesses, upperGuess];
-                setWrongGuesses(newWrongGuessArray);
-                setGuessesRemaining(guessesRemaining - 1)
+                dispatch(addWrongLetter(newWrongGuessArray)); //setWrongGuesses(newWrongGuessArray);
+                dispatch(decrementGuess()); //setGuessesRemaining(guessesRemaining - 1)
                 if (guessesRemaining === 1) {
-                    setGameOver(true)
+                    dispatch(setGameOverTrue()); //setGameOver(true)
                 }
             }
         } else {
-            setError("Please enter a single letter");
+            dispatch(displayError("Please enter a single letter")); //setError("Please enter a single letter");
         }
 
     }
