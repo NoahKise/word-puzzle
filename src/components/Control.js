@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import GuessForm from "./GuessForm";
 import GamePage from "./GamePage";
 import EndScenario from "./EndScenario";
