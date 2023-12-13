@@ -1,12 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { displayError } from '../redux/errorSlice';
+import { useDispatch } from 'react-redux';
+
+
 
 const GuessForm = (props) => {
+    const dispatch = useDispatch();
     function handleGuessInput(e) {
         e.preventDefault();
-        props.onNewGuess({
+        const letters = /^[A-Za-z]+$/;
+        const inputGuess = e.target.guess.value;
+        if (inputGuess.match(letters)) {
+            props.onNewGuess({
             guess: e.target.guess.value,
         });
+        } else {
+            dispatch(displayError("Please enter a valid letter"))
+        }
         e.target.guess.value = ''
     }
 

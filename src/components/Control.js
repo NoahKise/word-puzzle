@@ -24,10 +24,10 @@ import { addCorrectLetter, returnDefaultCorrect } from "../redux/correctGuessesS
 import { userDisplay } from "../redux/displayAnswerSlice";
 import { setEndTrue, setEndFalse } from "../redux/endStateSlice";
 import { displayError } from "../redux/errorSlice";
-import { setGameOverTrue, setGameOverFalse } from "../redux/gameOverSlice"; 
+import { setGameOverTrue, setGameOverFalse } from "../redux/gameOverSlice";
 import { decrementGuess, returnTo6 } from "../redux/guessesRemainingSlice";
 import { setStartTrue } from "../redux/inGameSlice";
-import { addWrongLetter, returnDefaultWrong } from "../redux/wrongGuessesSlice"; 
+import { addWrongLetter, returnDefaultWrong } from "../redux/wrongGuessesSlice";
 
 
 const Control = () => {
@@ -59,8 +59,7 @@ const Control = () => {
         for (let i = 0; i < randoAnswer.length; i++) {
             underscores.push('_');
         }
-        console.log(randoAnswer);
-        console.log(underscores);
+        // console.log(randoAnswer);
         dispatch(userDisplay(underscores));    //setDisplayAnswer(underscores);
     };
 
@@ -75,12 +74,9 @@ const Control = () => {
     }
 
     const handleGuess = (guess) => {
-       dispatch(displayError('')); //setError('');
+        dispatch(displayError('')); //setError('');
         if ((guess.guess).length === 1) {
             const upperGuess = (guess.guess).toUpperCase();
-            console.log("correct guesses", correctGuesses);
-            console.log("wrong guesses", wrongGuesses);
-
             if (correctGuesses.includes(upperGuess) || wrongGuesses.includes(upperGuess)) {
                 dispatch(displayError("You've already guessed that letter")); //setError("You've already guessed that letter")
             } else if (answer.includes(upperGuess)) {
@@ -118,7 +114,7 @@ const Control = () => {
         visibleState =
             <>
                 <GamePage incorrectGuesses={wrongGuesses} guessesLeft={guessesRemaining} displayAnswer={displayAnswer} />
-                <EndScenario endState={endState} click={newGame} unsolved={answer}/>
+                <EndScenario endState={endState} click={newGame} unsolved={answer} />
             </>
     } else if (inGame) {
         visibleState = (
