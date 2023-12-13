@@ -11,7 +11,6 @@ const gameOverSlice = createSlice({
             return false;
         }
     }
-
 });
 
 export default gameOverSlice.reducer;
