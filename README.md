@@ -5,7 +5,6 @@
 * GIPHY for answer
 * incorrect guesses easter egg
 
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
