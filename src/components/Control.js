@@ -200,7 +200,7 @@ const Control = () => {
         visibleState =
             <>
                 <GamePage incorrectGuesses={wrongGuesses} guessesLeft={guessesRemaining} displayAnswer={displayAnswer} />
-                <EndScenario endState={endState} easyClick={newEasyGame} hardClick={newHardGame} twoPlayerClick={displayInputForm} unsolved={answer} />
+                <EndScenario endState={endState} easyClick={newEasyGame} hardClick={newHardGame} twoPlayerClick={displayInputForm} unsolved={answer} guessesLeft={guessesRemaining}/>
                 
             </>
     } else if (inGame) {
