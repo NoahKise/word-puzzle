@@ -2,15 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import pizzaSad from './../assets/img/pizzaSad.jpeg';
 import goblin from './../assets/img/goblin.png'
+// import { useDispatch } from 'react-redux';
+// import { addScore } from '../redux/totalPointsSlice';
 
 const EndScenario = (props) => {
+    // const dispatch = useDispatch();
     let message;
     let correctWord;
     let src;
+    // let pointsEarned = (props.guessesLeft) * (props.unsolved.length) * 1234;
 
     if (props.endState === true) {
         message = "Congrats You Win!";
         src = goblin;
+        // dispatch(addScore(pointsEarned));
     } else {
         message = "Sorry Try Again";
         correctWord = (
@@ -21,17 +26,18 @@ const EndScenario = (props) => {
         );
         src = pizzaSad;
     }
-    let pointsEarned = (props.guessesLeft) * (props.unsolved.length) * 1234;
+
+    
     
     return(
         <React.Fragment>
             <h3>{message}</h3>
             <h4>{correctWord}</h4>
             <img src={src} alt="something"/>
-            <h4>With {props.guessesLeft} guesses remaining, you won {pointsEarned} points!</h4>
+            <h4>With <span id='green'>{props.guessesLeft}</span> guesses remaining, you won <span id='green2'>{props.tally}</span> points!</h4>
             <button onClick={props.easyClick}>Play again easy mode</button> 
             <button onClick={props.hardClick}>Play again hard mode</button>
-            <button onClick={props.twoPlayerClick}>Play again 2 Player</button>  
+            <button onClick={props.twoPlayerClick}>Play again 2 Player</button> 
         </React.Fragment>
     )
 }

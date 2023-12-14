@@ -5,6 +5,7 @@ import EndScenario from "./EndScenario";
 import PlayButton from "./PlayButton";
 import wordList from "./words";
 import UserWordInputForm from "./UserWordInputForm";
+import TotalPoints from "./TotalPoints";
 import pizza6 from './../assets/img/pizza6.jpeg';
 import pizza5 from './../assets/img/pizza5.jpeg';
 import pizza4 from './../assets/img/pizza4.jpeg';
@@ -24,6 +25,8 @@ import { endStateSelector } from "../redux/endStateSlice";
 import { errorSelector } from "../redux/errorSlice";
 import { answerSelector } from "../redux/answerSlice";
 import { wordInputFormVisibleSelector } from "../redux/wordInputFormVisibleSlice";
+import { totalPointsSelector } from "../redux/totalPointsSlice";
+import { currentPointsSelector } from "../redux/currentPointsSlice";
 
 import { useDispatch } from 'react-redux';
 
@@ -37,12 +40,16 @@ import { decrementGuess, returnTo6 } from "../redux/guessesRemainingSlice";
 import { setStartTrue, setStartFalse } from "../redux/inGameSlice";
 import { addWrongLetter, returnDefaultWrong } from "../redux/wrongGuessesSlice";
 import { setInputFormVisibleTrue, setInputFormVisibleFalse } from "../redux/wordInputFormVisibleSlice"
+import { addScore } from "../redux/totalPointsSlice";
+import { currentScore } from "../redux/currentPointsSlice";
 
-import easyWordList  from "./easyWords";
+import easyWordList from "./easyWords";
 
 
 const Control = () => {
     const dispatch = useDispatch();
+
+    let pointsEarned = 0;
 
     const inGame = useSelector(inGameSelector);
     const gameOver = useSelector(gameOverSelector);
@@ -54,6 +61,8 @@ const Control = () => {
     const error = useSelector(errorSelector);
     const answer = useSelector(answerSelector);
     const wordInputFormVisible = useSelector(wordInputFormVisibleSelector);
+    const totalPoints = useSelector(totalPointsSelector);
+    const currentPoints = useSelector(currentPointsSelector);
 
     const newEasyGame = () => {
         dispatch(setStartTrue()); // setInGame(true);
@@ -110,17 +119,16 @@ const Control = () => {
         dispatch(userDisplay([]));  //setDisplayAnswer([]);
         dispatch(setEndFalse());  //setEndState(false);
         dispatch(setGameOverFalse()); //setGameOver(false);
-        
+
         //import the user submitted word
         const userAnswer = chosenWord.toUpperCase().split('')
-        dispatch(setAnswer(userAnswer)) 
+        dispatch(setAnswer(userAnswer))
         let underscores = [];
         for (let i = 0; i < userAnswer.length; i++) {
             underscores.push('_');
         }
         console.log(userAnswer);
-        console.log(underscores);
-        dispatch(userDisplay(underscores));    
+        dispatch(userDisplay(underscores));
     }
 
     const getIndices = (array, letter) => {
@@ -132,11 +140,10 @@ const Control = () => {
         }
         return indices;
     }
-    const handleSetWord = (wordChosen) => {
-        console.log(wordChosen.wordChosen)
-        return wordChosen.wordChosen;
-    }
-
+    // const handleSetWord = (wordChosen) => {
+    //     console.log(wordChosen.wordChosen)
+    //     return wordChosen.wordChosen;
+    // }
 
     const handleGuess = (guess) => {
         dispatch(displayError('')); //setError('');
@@ -156,6 +163,9 @@ const Control = () => {
                 if (answer.join('') === displayInProgress.join('')) {
                     dispatch(setGameOverTrue()); //setGameOver(true)
                     dispatch(setEndTrue()); //setEndState(true)
+                    pointsEarned = (guessesRemaining) * (answer.length) * 1234;
+                    dispatch(addScore(pointsEarned));
+                    dispatch(currentScore(pointsEarned))  //WIP
                 }
             } else {
                 console.log(answer);
@@ -166,6 +176,7 @@ const Control = () => {
                     dispatch(setGameOverTrue()); //setGameOver(true)
                 }
             }
+
         } else {
             dispatch(displayError("Please enter a single letter")); //setError("Please enter a single letter");
         }
@@ -200,8 +211,8 @@ const Control = () => {
         visibleState =
             <>
                 <GamePage incorrectGuesses={wrongGuesses} guessesLeft={guessesRemaining} displayAnswer={displayAnswer} />
-                <EndScenario endState={endState} easyClick={newEasyGame} hardClick={newHardGame} twoPlayerClick={displayInputForm} unsolved={answer} guessesLeft={guessesRemaining}/>
-                
+                <EndScenario endState={endState} easyClick={newEasyGame} hardClick={newHardGame} twoPlayerClick={displayInputForm} unsolved={answer} guessesLeft={guessesRemaining} tally={currentPoints} />
+                <TotalPoints tally={totalPoints} />
             </>
     } else if (inGame) {
         visibleState = (
@@ -213,6 +224,7 @@ const Control = () => {
                     dubLetResponse={error} />
                 <GuessForm onNewGuess={handleGuess} />
                 <img src={setSrc()} alt="hangman" />
+                <TotalPoints tally={totalPoints} />
             </>
         );
     } else if (wordInputFormVisible) {
@@ -222,7 +234,7 @@ const Control = () => {
             </>
         )
     } else {
-        visibleState = <PlayButton clickEasy={newEasyGame} clickHard={newHardGame} click2P={displayInputForm}/>;
+        visibleState = <PlayButton clickEasy={newEasyGame} clickHard={newHardGame} click2P={displayInputForm} />;
     }
 
     return <React.Fragment>{visibleState}</React.Fragment>;
