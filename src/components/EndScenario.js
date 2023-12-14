@@ -10,11 +10,13 @@ const EndScenario = (props) => {
     let message;
     let correctWord;
     let src;
+    let winScoreMsg;
     // let pointsEarned = (props.guessesLeft) * (props.unsolved.length) * 1234;
 
     if (props.endState === true) {
         message = "Congrats You Win!";
         src = goblin;
+        winScoreMsg = <>With <span id='green'>{props.guessesLeft}</span> guesses remaining, you won <span id='green2'>{props.tally}</span> points!</>
         // dispatch(addScore(pointsEarned));
     } else {
         message = "Sorry Try Again";
@@ -34,7 +36,8 @@ const EndScenario = (props) => {
             <h3>{message}</h3>
             <h4>{correctWord}</h4>
             <img src={src} alt="something"/>
-            <h4>With <span id='green'>{props.guessesLeft}</span> guesses remaining, you won <span id='green2'>{props.tally}</span> points!</h4>
+            
+            <h4>{winScoreMsg}</h4>
             <button onClick={props.easyClick}>Play again easy mode</button> 
             <button onClick={props.hardClick}>Play again hard mode</button>
             <button onClick={props.twoPlayerClick}>Play again 2 Player</button> 
