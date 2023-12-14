@@ -26,13 +26,15 @@ const EndScenario = (props) => {
             <h3>{message}</h3>
             <h4>{correctWord}</h4>
             <img src={src} alt="final hangman"/>
-            <button onClick={props.click}>Play again</button> 
+            <button onClick={props.easyClick}>Play again easy mode</button> 
+            <button onClick={props.hardClick}>Play again hard mode</button> 
         </React.Fragment>
     )
 }
 
 EndScenario.propTypes = {
     unsolved: PropTypes.array,
-    click: PropTypes.func,
+    easyClick: PropTypes.func,
+    hardClick: PropTypes.func,
 }
 export default EndScenario;

@@ -2,16 +2,18 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 
-const PlayButton = ({ click }) => {
+const PlayButton = ({ clickEasy, clickHard }) => {
     return (
         <React.Fragment>
-            <button onClick={click}>New Game</button>
+            <button onClick={clickEasy}>New Easy Game</button>
+            <button onClick={clickHard}>New Hard Game</button>
         </React.Fragment>
     )
 }
 
 PlayButton.propTypes = {
-    click: PropTypes.func,
+    clickEasy: PropTypes.func,
+    clickHard: PropTypes.func,
 }
 
 export default PlayButton;

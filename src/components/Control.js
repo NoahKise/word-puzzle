@@ -51,7 +51,7 @@ const Control = () => {
     const error = useSelector(errorSelector);
     const answer = useSelector(answerSelector);
 
-    const newGame = () => {
+    const newEasyGame = () => {
         dispatch(setStartTrue()); // setInGame(true);
         dispatch(returnDefaultWrong()); //setWrongGuesses([]);
         dispatch(returnDefaultCorrect());  //setCorrectGuesses([]);
@@ -60,10 +60,28 @@ const Control = () => {
         dispatch(setEndFalse());  //setEndState(false);
         dispatch(setGameOverFalse()); //setGameOver(false);
 
-        console.log(easyWordList);
-
         const randomNumber = Math.floor(Math.random() * easyWordList.length);
         const randoAnswer = (easyWordList[randomNumber]).toUpperCase().split('')
+        dispatch(setAnswer(randoAnswer)) //setAnswer(randoAnswer);
+        let underscores = [];
+        for (let i = 0; i < randoAnswer.length; i++) {
+            underscores.push('_');
+        }
+        // console.log(randoAnswer);
+        dispatch(userDisplay(underscores));    //setDisplayAnswer(underscores);
+    };
+
+    const newHardGame = () => {
+        dispatch(setStartTrue()); // setInGame(true);
+        dispatch(returnDefaultWrong()); //setWrongGuesses([]);
+        dispatch(returnDefaultCorrect());  //setCorrectGuesses([]);
+        dispatch(returnTo6()); //setGuessesRemaining(6);
+        dispatch(userDisplay([]));  //setDisplayAnswer([]);
+        dispatch(setEndFalse());  //setEndState(false);
+        dispatch(setGameOverFalse()); //setGameOver(false);
+
+        const randomNumber = Math.floor(Math.random() * wordList.length);
+        const randoAnswer = (wordList[randomNumber]).toUpperCase().split('')
         dispatch(setAnswer(randoAnswer)) //setAnswer(randoAnswer);
         let underscores = [];
         for (let i = 0; i < randoAnswer.length; i++) {
@@ -145,7 +163,7 @@ const Control = () => {
         visibleState =
             <>
                 <GamePage incorrectGuesses={wrongGuesses} guessesLeft={guessesRemaining} displayAnswer={displayAnswer} />
-                <EndScenario endState={endState} click={newGame} unsolved={answer} />
+                <EndScenario endState={endState} easyClick={newEasyGame} hardClick={newHardGame} unsolved={answer} />
                 
             </>
     } else if (inGame) {
@@ -161,7 +179,7 @@ const Control = () => {
             </>
         );
     } else {
-        visibleState = <PlayButton click={newGame} />;
+        visibleState = <PlayButton clickEasy={newEasyGame} clickHard={newHardGame} />;
     }
 
     return <React.Fragment>{visibleState}</React.Fragment>;

@@ -25,6 +25,7 @@ button {
   -webkit-user-select: none;
   touch-action: manipulation;
   margin-left: 5px;
+  margin-right: 5px;
 }
 
 button:active {
