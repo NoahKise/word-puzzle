@@ -2,7 +2,6 @@ body {
   font-family: monospace;
   font-size: x-large;
   text-align: center;
-  /* background-image: url(./assets/img/hang1.png); */
 }
 
 h3 {
@@ -16,6 +15,11 @@ h3 {
 #green2 {
   color: rgb(0, 255, 0);
 }
+
+#purple {
+  color: purple;
+}
+
 
 button {
   font-family: "Open Sans", sans-serif;

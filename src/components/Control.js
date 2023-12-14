@@ -174,6 +174,9 @@ const Control = () => {
                 dispatch(decrementGuess()); //setGuessesRemaining(guessesRemaining - 1)
                 if (guessesRemaining === 1) {
                     dispatch(setGameOverTrue()); //setGameOver(true)
+                    pointsEarned = (answer.length) * -1234;
+                    dispatch(addScore(pointsEarned));
+                    dispatch(currentScore(pointsEarned))
                 }
             }
 

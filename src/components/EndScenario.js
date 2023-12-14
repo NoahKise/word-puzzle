@@ -2,22 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import pizzaSad from './../assets/img/pizzaSad.jpeg';
 import goblin from './../assets/img/goblin.png'
-// import { useDispatch } from 'react-redux';
-// import { addScore } from '../redux/totalPointsSlice';
 
 const EndScenario = (props) => {
-    // const dispatch = useDispatch();
     let message;
     let correctWord;
     let src;
     let winScoreMsg;
-    // let pointsEarned = (props.guessesLeft) * (props.unsolved.length) * 1234;
 
     if (props.endState === true) {
         message = "Congrats You Win!";
         src = goblin;
         winScoreMsg = <>With <span id='green'>{props.guessesLeft}</span> guesses remaining, you won <span id='green2'>{props.tally}</span> points!</>
-        // dispatch(addScore(pointsEarned));
     } else {
         message = "Sorry Try Again";
         correctWord = (
@@ -27,6 +22,7 @@ const EndScenario = (props) => {
             </React.Fragment>
         );
         src = pizzaSad;
+        winScoreMsg = <>You lost <span id='purple'>{props.tally}</span> points!</>
     }
 
     
