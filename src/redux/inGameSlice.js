@@ -7,10 +7,13 @@ const inGameSlice = createSlice({
         setStartTrue: (state, action) => {
             return true;
         },
+        setStartFalse: (state, action) => {
+            return false;
+        },
     }
 
 });
 
 export default inGameSlice.reducer;
-export const { setStartTrue } = inGameSlice.actions;
+export const { setStartTrue, setStartFalse } = inGameSlice.actions;
 export const inGameSelector = (state) => state.inGame;

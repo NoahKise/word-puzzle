@@ -33,7 +33,7 @@ const GuessForm = (props) => {
     )
 }
 GuessForm.propTypes = {
-    guessSubmit: PropTypes.func,
+    onNewGuess: PropTypes.func,
 };
 
 export default GuessForm;

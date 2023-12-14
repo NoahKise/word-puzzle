@@ -4,6 +4,7 @@ import GamePage from "./GamePage";
 import EndScenario from "./EndScenario";
 import PlayButton from "./PlayButton";
 import wordList from "./words";
+import UserWordInputForm from "./UserWordInputForm";
 import pizza6 from './../assets/img/pizza6.jpeg';
 import pizza5 from './../assets/img/pizza5.jpeg';
 import pizza4 from './../assets/img/pizza4.jpeg';
@@ -22,6 +23,7 @@ import { displayAnswerSelector } from "../redux/displayAnswerSlice";
 import { endStateSelector } from "../redux/endStateSlice";
 import { errorSelector } from "../redux/errorSlice";
 import { answerSelector } from "../redux/answerSlice";
+import { wordInputFormVisibleSelector } from "../redux/wordInputFormVisibleSlice";
 
 import { useDispatch } from 'react-redux';
 
@@ -32,8 +34,9 @@ import { setEndTrue, setEndFalse } from "../redux/endStateSlice";
 import { displayError } from "../redux/errorSlice";
 import { setGameOverTrue, setGameOverFalse } from "../redux/gameOverSlice";
 import { decrementGuess, returnTo6 } from "../redux/guessesRemainingSlice";
-import { setStartTrue } from "../redux/inGameSlice";
+import { setStartTrue, setStartFalse } from "../redux/inGameSlice";
 import { addWrongLetter, returnDefaultWrong } from "../redux/wrongGuessesSlice";
+import { setInputFormVisibleTrue, setInputFormVisibleFalse } from "../redux/wordInputFormVisibleSlice"
 
 import easyWordList  from "./easyWords";
 
@@ -50,6 +53,7 @@ const Control = () => {
     const endState = useSelector(endStateSelector);
     const error = useSelector(errorSelector);
     const answer = useSelector(answerSelector);
+    const wordInputFormVisible = useSelector(wordInputFormVisibleSelector);
 
     const newEasyGame = () => {
         dispatch(setStartTrue()); // setInGame(true);
@@ -91,6 +95,34 @@ const Control = () => {
         dispatch(userDisplay(underscores));    //setDisplayAnswer(underscores);
     };
 
+    const displayInputForm = () => {
+        dispatch(setInputFormVisibleTrue());
+        dispatch(setGameOverFalse());
+        dispatch(setStartFalse())
+    }
+
+    const new2PGame = (chosenWord) => {
+        dispatch(setInputFormVisibleFalse());
+        dispatch(setStartTrue()); // setInGame(true);
+        dispatch(returnDefaultWrong()); //setWrongGuesses([]);
+        dispatch(returnDefaultCorrect());  //setCorrectGuesses([]);
+        dispatch(returnTo6()); //setGuessesRemaining(6);
+        dispatch(userDisplay([]));  //setDisplayAnswer([]);
+        dispatch(setEndFalse());  //setEndState(false);
+        dispatch(setGameOverFalse()); //setGameOver(false);
+        
+        //import the user submitted word
+        const userAnswer = chosenWord.toUpperCase().split('')
+        dispatch(setAnswer(userAnswer)) 
+        let underscores = [];
+        for (let i = 0; i < userAnswer.length; i++) {
+            underscores.push('_');
+        }
+        console.log(userAnswer);
+        console.log(underscores);
+        dispatch(userDisplay(underscores));    
+    }
+
     const getIndices = (array, letter) => {
         let indices = [];
         for (let i = 0; i < array.length; i++) {
@@ -100,6 +132,11 @@ const Control = () => {
         }
         return indices;
     }
+    const handleSetWord = (wordChosen) => {
+        console.log(wordChosen.wordChosen)
+        return wordChosen.wordChosen;
+    }
+
 
     const handleGuess = (guess) => {
         dispatch(displayError('')); //setError('');
@@ -163,7 +200,7 @@ const Control = () => {
         visibleState =
             <>
                 <GamePage incorrectGuesses={wrongGuesses} guessesLeft={guessesRemaining} displayAnswer={displayAnswer} />
-                <EndScenario endState={endState} easyClick={newEasyGame} hardClick={newHardGame} unsolved={answer} />
+                <EndScenario endState={endState} easyClick={newEasyGame} hardClick={newHardGame} twoPlayerClick={displayInputForm} unsolved={answer} />
                 
             </>
     } else if (inGame) {
@@ -178,8 +215,14 @@ const Control = () => {
                 <img src={setSrc()} alt="hangman" />
             </>
         );
+    } else if (wordInputFormVisible) {
+        visibleState = (
+            <>
+                <UserWordInputForm onWordChosen={(chosenWord) => new2PGame(chosenWord.wordChosen)} startGame={new2PGame} />
+            </>
+        )
     } else {
-        visibleState = <PlayButton clickEasy={newEasyGame} clickHard={newHardGame} />;
+        visibleState = <PlayButton clickEasy={newEasyGame} clickHard={newHardGame} click2P={displayInputForm}/>;
     }
 
     return <React.Fragment>{visibleState}</React.Fragment>;

@@ -8,6 +8,7 @@ import displayAnswerSliceReducer from "./displayAnswerSlice";
 import endStateSliceReducer from "./endStateSlice";
 import errorSliceReducer from "./errorSlice";
 import answerSliceReducer from "./answerSlice";
+import wordInputFormVisibleSliceReducer from "./wordInputFormVisibleSlice";
 
 export const store = configureStore({
     reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
         endState: endStateSliceReducer,
         error: errorSliceReducer,
         answer: answerSliceReducer,
+        wordInputFormVisible: wordInputFormVisibleSliceReducer,
     }
 });
