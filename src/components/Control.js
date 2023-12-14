@@ -35,6 +35,8 @@ import { decrementGuess, returnTo6 } from "../redux/guessesRemainingSlice";
 import { setStartTrue } from "../redux/inGameSlice";
 import { addWrongLetter, returnDefaultWrong } from "../redux/wrongGuessesSlice";
 
+import easyWordList  from "./easyWords";
+
 
 const Control = () => {
     const dispatch = useDispatch();
@@ -58,8 +60,10 @@ const Control = () => {
         dispatch(setEndFalse());  //setEndState(false);
         dispatch(setGameOverFalse()); //setGameOver(false);
 
-        const randomNumber = Math.floor(Math.random() * wordList.length);
-        const randoAnswer = (wordList[randomNumber]).toUpperCase().split('')
+        console.log(easyWordList);
+
+        const randomNumber = Math.floor(Math.random() * easyWordList.length);
+        const randoAnswer = (easyWordList[randomNumber]).toUpperCase().split('')
         dispatch(setAnswer(randoAnswer)) //setAnswer(randoAnswer);
         let underscores = [];
         for (let i = 0; i < randoAnswer.length; i++) {
@@ -111,7 +115,7 @@ const Control = () => {
             dispatch(displayError("Please enter a single letter")); //setError("Please enter a single letter");
         }
     }
-    
+
     let visibleState = null;
 
     const setSrc = () => {
