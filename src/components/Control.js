@@ -110,8 +110,8 @@ const Control = () => {
         } else {
             dispatch(displayError("Please enter a single letter")); //setError("Please enter a single letter");
         }
-
     }
+    
     let visibleState = null;
 
     const setSrc = () => {
