@@ -2,8 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import pizzaSad from './../assets/img/pizzaSad.jpeg';
 import goblin from './../assets/img/goblin.png'
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { getGif } from './giphy';
 
 const EndScenario = (props) => {
+    //let gifKeword = "chief wiggum";
+    const [gif, setGif] = useState();
+    useEffect(() => {
+        const fetchGif = async () => {
+            const result = await getGif(props.unsolved.join(""));
+            setGif(result);
+        }
+        fetchGif();
+    }, []); //[] if not, calls every time comp re-renders. [] makes api call 1st time. 
+
     let message;
     let correctWord;
     let src;
@@ -24,19 +37,19 @@ const EndScenario = (props) => {
         src = pizzaSad;
         winScoreMsg = <>You lost <span id='purple'>{props.tally}</span> points!</>
     }
-
-    
-    
     return(
         <React.Fragment>
             <h3>{message}</h3>
+            <img src={gif} alt="giphy related to answer"/>
             <h4>{correctWord}</h4>
-            <img src={src} alt="something"/>
             
             <h4>{winScoreMsg}</h4>
+            <img src={src} alt="something"/>
             <button onClick={props.easyClick}>Play again easy mode</button> 
             <button onClick={props.hardClick}>Play again hard mode</button>
             <button onClick={props.twoPlayerClick}>Play again 2 Player</button> 
+            
+            
         </React.Fragment>
     )
 }

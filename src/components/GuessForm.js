@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { displayError } from '../redux/errorSlice';
 import { useDispatch } from 'react-redux';
 
-
-
 const GuessForm = (props) => {
     const dispatch = useDispatch();
     function handleGuessInput(e) {
@@ -26,7 +24,7 @@ const GuessForm = (props) => {
         <React.Fragment>
             <form onSubmit={handleGuessInput}>
                 <label htmlFor="guess">Guess a letter: </label>
-                <input type="text" id="guess" name="guess"></input>
+                <input type="text" autoComplete="off" id="guess" name="guess"></input>
                 <button type="submit" className='guessSubmitBtn'>Submit</button>
             </form>
         </React.Fragment>

@@ -1,8 +1,8 @@
-export async function getGif() {
-    const apiKey = process.env.API_KEY;
-    const offset = Math.floor(Math.random() * 6);
-    const array = [0, 1, 8, 11, 3, 2];
-    const url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=chief+wiggum&limit=1&offset=${array[offset]}&rating=r&lang=en&bundle=messaging_non_clips`;
+export const getGif = async (word) => {
+    const searchTerm = word
+    const apiKey = process.env.REACT_APP_API_KEY;
+    const offset = Math.floor(Math.random() * 2);
+    const url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${searchTerm}&limit=1&offset=${offset}&rating=r&lang=en&bundle=messaging_non_clips`;
 
     try {
         const response = await fetch(url);
