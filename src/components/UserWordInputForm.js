@@ -25,7 +25,7 @@ const UserWordInputForm = (props) => {
         <React.Fragment>
             <form onSubmit={handleWordInput}>
                 <label htmlFor="inputWord">Player 1: Enter a word for Player 2 to guess: </label>
-                <input type="text" id="inputWord" name="inputWord"></input>
+                <input type="password" id="inputWord" name="inputWord"></input>
                 <button type="submit">Submit secret word</button>
             </form>
         </React.Fragment>
