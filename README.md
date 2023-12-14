@@ -1,8 +1,6 @@
 ##Notes
 ### add on features if time:
 * add point value that decreases as turns are used up, display winning points
-s
-* Make the game two-player! Create a new form page where one user can choose a word for the other user to guess.
 * Try stylizing this game like Wordle.
 * GIPHY for answer
 * incorrect guesses easter egg
