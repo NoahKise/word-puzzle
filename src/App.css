@@ -2,6 +2,8 @@ body {
   font-family: monospace;
   font-size: x-large;
   text-align: center;
+  background-color: rgb(27, 27, 27);
+  color: rgb(222, 217, 217)
 }
 
 h3 {
@@ -20,14 +22,14 @@ h3 {
   color: purple;
 }
 
-
 button {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   letter-spacing: 2px;
   text-decoration: none;
   text-transform: uppercase;
-  color: #000;
+  color: gray;
+  background-color: black;
   cursor: pointer;
   border: 3px solid;
   padding: 0.25em 0.5em;
@@ -39,6 +41,7 @@ button {
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 button:active {

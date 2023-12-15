@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { getGif } from './giphy';
 
 const EndScenario = (props) => {
-    //let gifKeword = "chief wiggum";
     const [gif, setGif] = useState();
     useEffect(() => {
         const fetchGif = async () => {

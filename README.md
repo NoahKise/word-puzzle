@@ -1,9 +1,15 @@
-##Notes
+## Not Wordle
+
+### By Noah Kise & Kim Robinson
+
+_An application made with React and Redux Toolkit for a hangman-style game with 3 play modes_
+
 ### add on features if time:
-* add point value that decreases as turns are used up, display winning points
+* Add light mode button functionality
 * Try stylizing this game like Wordle.
-* GIPHY for answer
 * incorrect guesses easter egg
+
+<!-- ![Diagram of components](/src/assets/diagram.drawio.svg) -->
 
 # Getting Started with Create React App
 
